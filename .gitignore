@@ -1,0 +1,13 @@
+# Executable binaries
+*.exe
+*.obj
+*.o
+*.exp
+*.lib
+
+# Temporary installers
+vs_BuildTools.exe
+
+# OS generated files
+Thumbs.db
+Desktop.ini
