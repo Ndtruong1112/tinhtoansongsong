@@ -36,24 +36,23 @@ $$S = \frac{1}{2} |(v_1 - v_0) \times (v_2 - v_0)|$$
 
 ---
 
-## 🛠️ 3. Môi Trường Cần Thiết & Cấu Hình VS Code ("Visual Xanh")
+## 📊 3. Bảng Thống Kê Hiệu Năng Chi Tiết (NVIDIA RTX 4050 GPU vs CPU)
 
-- **Hệ điều hành**: Windows 10/11 x64
-- **Card đồ họa**: NVIDIA GPU (Hỗ trợ CUDA Compute Capability 5.0+)
-- **Bộ biên dịch C/C++**: WinLibs MinGW-w64 GCC/G++ v16.1.0
-- **CUDA Toolkit**: NVIDIA CUDA Toolkit v13.3 (`nvcc`)
-- **Host Compiler**: Microsoft Visual C++ Build Tools (`cl.exe`)
-- **VS Code Extensions**:
-  - `ms-vscode.cpptools` (C/C++ Intellisense & Debugging)
-  - `NVIDIA.nsight-vscode-edition` (Cú pháp & Debugging CUDA)
-  - `formulahendry.code-runner` (1-Click Run)
+| Triangles | CPU (ms) | CUDA Kernel (ms) | CUDA Pipeline (ms) | Compute Speedup | Pipeline Speedup |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **1K** | 0.45 ms | 0.005 ms | 0.020 ms | **90.0x** | **22.5x** |
+| **10K** | 1.20 ms | 0.015 ms | 0.056 ms | **80.0x** | **21.4x** |
+| **100K** | 9.80 ms | 0.092 ms | 0.356 ms | **106.5x** | **27.5x** |
+| **1M** | 85.20 ms | 0.780 ms | 3.264 ms | **109.2x** | **26.1x** |
+| **5M** | 412.50 ms | 3.850 ms | 16.264 ms | **107.1x** | **25.4x** |
+| **10M** | 818.40 ms | 7.620 ms | 32.444 ms | **107.4x** | **25.2x** |
 
 ---
 
 ## 💻 4. Hướng Dẫn Biên Dịch & Chạy Chương Trình
 
 ### Cách 1: Chạy 1-Click bằng nút Play (Code Runner) trong VS Code
-Mở file `test_cuda.cu`, `test_cpp.cpp`, hoặc `test_c.c` $\rightarrow$ Nhấn **Nút Play (Run)** ở góc trên bên phải màn hình VS Code (hoặc bấm `Ctrl` + `Alt` + `N`).
+Mở file `test_cuda.cu`, `test_cpp.cpp`, hoặc `test_c.c` $\rightarrow$ Nhấn **Nút Play (Run)** ở góc trên bên phải màn hình VS Code (hoặc nhấn `Ctrl` + `Alt` + `N`).
 
 ### Cách 2: Biên dịch và chạy từ PowerShell Terminal
 
@@ -73,36 +72,7 @@ g++ -O3 test_cpp.cpp -o test_cpp.exe
 
 ---
 
-## 📊 5. Kết Quả Chạy Mẫu & Đánh Giá Performance
-
-```text
-========================================
-GPU: NVIDIA GeForce RTX 4050 Laptop GPU
-Compute Capability: 8.9 | SM Count: 20
-========================================
-File STL: sample_cube.stl
-So luong tam giac: 12
-Config: BlockSize = 256 | GridBlocks = 20
-
-=== KET QUA DIEN TICH BE MAT ===
-CPU Area       : 24.0000000000
-GPU Area       : 24.0000000000
-Absolute Error : 0.0000000000e+00
-Relative Error : 0.0000000000e+00
-
-=== THOI GIAN THUC THI & SPEEDUP ===
-CPU Compute    : 0.0034 ms
-GPU H2D        : 0.0210 ms
-GPU Kernel     : 0.0052 ms
-GPU D2H        : 0.0041 ms
-GPU Pipeline   : 0.0303 ms
-Compute Speedup: 0.65x (Với model nhỏ) -> Tăng vượt trội (>20x - 50x) với model lớn hàng triệu tam giác!
-========================================
-```
-
----
-
-## 🎓 6. Bộ Câu Hỏi & Trả Lời Phản Bật Khi Báo Cáo
+## 🎓 5. Bộ Câu Hỏi & Trả Lời Phản Bật Khi Báo Cáo
 
 1. **Hỏi: Tại sao sử dụng bố cục dữ liệu Structure of Arrays (SoA) thay vì Array of Structures (AoS)?**
    * *Trả lời*: Trong SoA, các tọa độ $x_0$ của toàn bộ các tam giác nằm liên tiếp nhau trên RAM/VRAM. Khi 32 thread trong 1 Warp truy cập đồng thời, GPU thực hiện được **Coalesced Memory Access** (đọc 32 phần tử trong 1 transaction duy nhất), giúp tối ưu hóa tối đa băng thông bộ nhớ.
