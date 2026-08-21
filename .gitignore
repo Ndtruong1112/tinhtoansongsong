@@ -5,8 +5,16 @@
 *.exp
 *.lib
 
-# Temporary installers
+# Temporary installers & build tools
 vs_BuildTools.exe
+
+# Large generated STL test datasets (Keep sample_cube.stl)
+mesh_*.stl
+stl_*.stl
+
+# Python cache & logs
+__pycache__/
+*.log
 
 # OS generated files
 Thumbs.db
