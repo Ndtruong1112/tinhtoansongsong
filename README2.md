@@ -92,7 +92,7 @@ python generate_mesh.py
 
 ---
 
-## 🎓 7. Bộ Câu Hỏi Phản Biện Chắc Chắn Thầy/Cô Sẽ Hỏi & Câu Trả Lời
+## 🎓 7. Bộ Câu Hỏi Hay Gặp
 
 1. **Hỏi: Về cơ bản vẫn là cộng từng diện tích tam giác, tại sao không dùng `atomicAdd()` cho đơn giản?**
    * *Trả lời*: `atomicAdd()` bắt buộc các luồng phải tuần tự hóa khi truy cập cùng một địa chỉ bộ nhớ (Serialization). Khi chạy 10 triệu tam giác, 10 triệu luồng sẽ phải xếp hàng chờ đợi, làm triệt tiêu hoàn toàn tính chất song song của GPU. Warp Shuffle giúp cộng song song theo cây nhị phân $O(\log N)$ trực tiếp trong thanh ghi phần cứng.
